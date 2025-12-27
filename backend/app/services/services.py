@@ -69,7 +69,7 @@ def get_riders(
     """Get all riders with pagination and optional active filter"""
     query = db.query(Rider)
     if active_only:
-        query = query.filter(Rider.active == True)
+        query = query.filter(Rider.active.is_(True))
     return query.offset(skip).limit(limit).all()
 
 
