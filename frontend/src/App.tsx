@@ -22,8 +22,8 @@ import {
   Home as HomeIcon,
 } from '@mui/icons-material';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import StoresPage from './StoresPage';
-import RidersPage from './RidersPage';
+import StoresPage from './components/StoresPage';
+import RidersPage from './components/RidersPage';
 
 const drawerWidth = 240;
 
