@@ -4,7 +4,7 @@ Local/offline shift scheduling system for Panpaya delivery riders.
 
 ## Overview
 
-This system helps manage delivery riders and Panpaya branches for scheduling purposes. It's designed to work completely offline on a local Windows machine, with data stored in a local SQLite database.
+This system helps manage delivery riders and Panpaya branches for scheduling purposes. It supports a local SQLite database by default and can be configured for MySQL (XAMPP).
 
 ### Key Features (v0.2)
 
@@ -22,7 +22,7 @@ This system helps manage delivery riders and Panpaya branches for scheduling pur
 
 ### Backend
 - **Python 3.10+** with FastAPI
-- **SQLite** for local data storage
+- **SQLite** (default) or **MySQL** for local data storage
 - **SQLAlchemy** ORM for database operations
 - **Alembic** for database migrations
 - **Uvicorn** ASGI server
@@ -118,12 +118,26 @@ Siteme_programcion_de_turnos/
    pip install -r requirements.txt
    ```
 
-6. Run database migrations to create tables:
+6. Configure the database (SQLite default or MySQL/XAMPP):
+
+   **SQLite (default)**
+   ```cmd
+   set DATABASE_URL=sqlite:///./siteme_shifts.db
+   ```
+
+   **MySQL (XAMPP)**
+   - Start Apache + MySQL in XAMPP.
+   - Create a database named `siteme_shifts` in phpMyAdmin.
+   ```cmd
+   set DATABASE_URL=mysql+pymysql://root:@localhost:3306/siteme_shifts
+   ```
+
+7. Run database migrations to create tables:
    ```cmd
    alembic upgrade head
    ```
 
-7. Start the backend server:
+8. Start the backend server:
    ```cmd
    uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
    ```
