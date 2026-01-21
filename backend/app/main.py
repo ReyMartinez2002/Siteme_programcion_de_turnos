@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import stores_router, riders_router
+from app.api import stores_router, riders_router, brands_router, schedules_router, imports_router
 
 app = FastAPI(
     title="Siteme - Shift Scheduling System",
@@ -25,6 +25,9 @@ app.add_middleware(
 # Include routers
 app.include_router(stores_router, prefix="/api")
 app.include_router(riders_router, prefix="/api")
+app.include_router(brands_router, prefix="/api")
+app.include_router(schedules_router, prefix="/api")
+app.include_router(imports_router, prefix="/api")
 
 
 @app.get("/health")

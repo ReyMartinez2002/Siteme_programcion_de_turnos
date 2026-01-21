@@ -6,10 +6,14 @@ Local/offline shift scheduling system for Panpaya delivery riders.
 
 This system helps manage delivery riders and Panpaya branches for scheduling purposes. It's designed to work completely offline on a local Windows machine, with data stored in a local SQLite database.
 
-### Key Features (v0.1)
+### Key Features (v0.2)
 
 - **Panpaya Branches Management**: Create, read, update, and delete branch information (code, name, zone, address)
-- **Rider Management**: Manage delivery riders (domiciliarios) with full name, active status, and rider type
+- **Rider Management**: Manage delivery riders (domiciliarios) with full name, identification, store, status, and rider type
+- **External Brands**: Register external clients/brands for TC/FDS coverage
+- **Scheduling Dashboard**: Generate weekly assignments with AM/PM/DOUBLE/REST logic, manual overrides, and filters
+- **Excel Imports**: Upload riders, stores, and external brands from real Excel lists
+- **Excel Export**: Export schedule assignments to Excel
 - **Local/Offline**: All data stored in local SQLite database
 - **Responsive UI**: Works on desktop and mobile browsers
 - **REST API**: FastAPI backend with automatic API documentation
@@ -187,9 +191,28 @@ Siteme_programcion_de_turnos/
 ### Riders
 - `GET /api/riders/` - List all riders (supports `?active_only=true` filter)
 - `GET /api/riders/{id}` - Get a specific rider
-- `POST /api/riders/` - Create a new rider
+- `POST /api/riders/` - Create a new rider (includes store, identification, observation)
 - `PUT /api/riders/{id}` - Update a rider
 - `DELETE /api/riders/{id}` - Delete a rider
+
+### External Brands
+- `GET /api/brands/` - List external brands
+- `POST /api/brands/` - Create a new external brand
+- `PUT /api/brands/{id}` - Update an external brand
+- `DELETE /api/brands/{id}` - Delete an external brand
+
+### Schedule
+- `GET /api/schedule/?start_date=YYYY-MM-DD&end_date=YYYY-MM-DD` - List schedule assignments
+- `POST /api/schedule/` - Create a manual assignment
+- `PUT /api/schedule/{id}` - Update a schedule assignment
+- `DELETE /api/schedule/{id}` - Delete an assignment
+- `POST /api/schedule/generate` - Generate schedule for a date range
+- `GET /api/schedule/export` - Export assignments to Excel
+
+### Imports
+- `POST /api/imports/riders` - Import riders from Excel
+- `POST /api/imports/stores` - Import stores from Excel
+- `POST /api/imports/brands` - Import external brands from Excel
 
 ## Database
 
@@ -208,7 +231,26 @@ The SQLite database file (`siteme_shifts.db`) is created automatically in the `b
 - `id` (Integer, Primary Key)
 - `full_name` (String, Required) - Rider's full name
 - `active` (Boolean, Required) - Whether the rider is active
-- `rider_type` (String, Required) - Type of rider (e.g., PANPAYA, EXTERNO, DISPONIBLE)
+- `rider_type` (String, Required) - Type of rider (e.g., PANPAYA, TC, FDS)
+- `identification` (String, Optional) - Rider identification/CC
+- `store_id` (Integer, Optional) - Panpaya store assignment
+- `observation` (String, Optional) - Status notes (vacaciones, incapacidad, etc.)
+
+**external_brands table:**
+- `id` (Integer, Primary Key)
+- `name` (String, Unique, Required)
+
+**schedule_assignments table:**
+- `id` (Integer, Primary Key)
+- `rider_id` (Integer, Required)
+- `store_id` (Integer, Optional)
+- `external_brand_id` (Integer, Optional)
+- `shift_date` (Date, Required)
+- `shift_type` (String, Required)
+- `start_time` (String, Optional)
+- `end_time` (String, Optional)
+- `manual_override` (Boolean, Required)
+- `notes` (String, Optional)
 
 ### Managing Migrations
 
@@ -250,14 +292,11 @@ Frontend:
 npm run lint
 ```
 
-## Future Enhancements (Not in v0.1)
+## Future Enhancements (Not in v0.2)
 
 The following features are planned for future versions:
-- Weekly schedule builder with AM/PM shifts
-- Disponibles (reserve riders) status tracking
-- Time-off and permissions management
+- Time-off and permissions management analytics
 - External dispatch events (WhatsApp integration)
-- Excel export functionality
 - User authentication and authorization
 - Multi-user support
 
@@ -306,5 +345,5 @@ For issues or questions, contact the development team.
 
 ---
 
-**Version:** 0.1.0 (MVP)  
-**Last Updated:** December 27, 2025
+**Version:** 0.2.0 (Scheduling Engine)  
+**Last Updated:** January 21, 2026

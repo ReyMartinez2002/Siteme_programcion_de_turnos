@@ -31,6 +31,10 @@ def get_rider(rider_id: int, db: Session = Depends(get_db)):
 @router.post("/", response_model=schemas.Rider, status_code=201)
 def create_rider(rider: schemas.RiderCreate, db: Session = Depends(get_db)):
     """Create a new rider"""
+    if rider.store_id is not None and rider.store_id <= 0:
+        raise HTTPException(status_code=400, detail="Invalid store ID")
+    if rider.store_id is not None and services.get_store(db, rider.store_id) is None:
+        raise HTTPException(status_code=400, detail="Store not found")
     return services.create_rider(db, rider)
 
 
@@ -39,6 +43,10 @@ def update_rider(
     rider_id: int, rider: schemas.RiderUpdate, db: Session = Depends(get_db)
 ):
     """Update an existing rider"""
+    if rider.store_id is not None and rider.store_id <= 0:
+        raise HTTPException(status_code=400, detail="Invalid store ID")
+    if rider.store_id is not None and services.get_store(db, rider.store_id) is None:
+        raise HTTPException(status_code=400, detail="Store not found")
     db_rider = services.update_rider(db, rider_id, rider)
     if db_rider is None:
         raise HTTPException(status_code=404, detail="Rider not found")

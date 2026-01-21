@@ -1,3 +1,3 @@
-from .models import PanpayaStore, Rider
+from .models import PanpayaStore, Rider, ExternalBrand, ScheduleAssignment
 
-__all__ = ["PanpayaStore", "Rider"]
+__all__ = ["PanpayaStore", "Rider", "ExternalBrand", "ScheduleAssignment"]
