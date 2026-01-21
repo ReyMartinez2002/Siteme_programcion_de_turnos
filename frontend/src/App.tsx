@@ -20,10 +20,16 @@ import {
   Store as StoreIcon,
   DirectionsBike as BikeIcon,
   Home as HomeIcon,
+  CalendarMonth as CalendarIcon,
+  Factory as FactoryIcon,
+  UploadFile as UploadIcon,
 } from '@mui/icons-material';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import StoresPage from './components/StoresPage';
 import RidersPage from './components/RidersPage';
+import BrandsPage from './components/BrandsPage';
+import SchedulePage from './components/SchedulePage';
+import ImportsPage from './components/ImportsPage';
 
 const drawerWidth = 240;
 
@@ -34,7 +40,7 @@ const HomePage: React.FC = () => {
         Welcome to Siteme
       </Typography>
       <Typography variant="h6" color="text.secondary" paragraph>
-        Local/Offline Shift Scheduling System for Panpaya Delivery Riders
+        Local/Offline Scheduling System for PanPaYa Delivery Riders
       </Typography>
       <Typography variant="body1" paragraph>
         This system helps manage:
@@ -44,11 +50,17 @@ const HomePage: React.FC = () => {
           <Typography variant="body1">Panpaya branches (stores) with codes, zones, and addresses</Typography>
         </li>
         <li>
-          <Typography variant="body1">Delivery riders (domiciliarios) with activity status and types</Typography>
+          <Typography variant="body1">Delivery riders (domiciliarios) with types, stores, and observations</Typography>
+        </li>
+        <li>
+          <Typography variant="body1">External brands, schedule generation, and manual adjustments</Typography>
+        </li>
+        <li>
+          <Typography variant="body1">Excel import/export for operational data</Typography>
         </li>
       </Box>
       <Typography variant="body2" color="text.secondary" sx={{ mt: 3 }}>
-        Version 0.1.0 - MVP
+        Version 0.2.0 - Scheduling Engine
       </Typography>
     </Container>
   );
@@ -69,6 +81,9 @@ const AppContent: React.FC = () => {
     { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'Branches', icon: <StoreIcon />, path: '/stores' },
     { text: 'Riders', icon: <BikeIcon />, path: '/riders' },
+    { text: 'Brands', icon: <FactoryIcon />, path: '/brands' },
+    { text: 'Schedule', icon: <CalendarIcon />, path: '/schedule' },
+    { text: 'Imports', icon: <UploadIcon />, path: '/imports' },
   ];
 
   const drawer = (
@@ -165,6 +180,9 @@ const AppContent: React.FC = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/stores" element={<StoresPage />} />
           <Route path="/riders" element={<RidersPage />} />
+          <Route path="/brands" element={<BrandsPage />} />
+          <Route path="/schedule" element={<SchedulePage />} />
+          <Route path="/imports" element={<ImportsPage />} />
         </Routes>
       </Box>
     </Box>
